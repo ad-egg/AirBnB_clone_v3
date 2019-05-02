@@ -8,9 +8,7 @@ from api.v1.views import app_views
 from flask import Flask
 app = Flask(__name__)
 
-# TODO:
-# +Register the blueprint app_views to your Flask instance app
-
+app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def teardown_storage():
