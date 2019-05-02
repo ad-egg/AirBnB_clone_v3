@@ -30,7 +30,7 @@ def get_user(user_id):
 def delete_user(user_id):
     """
     Deletes a specific User object by user_id.
-    Returns an empty dictionary with the status code 200,else 404s.
+    Returns an empty dictionary with the status code 200, else 404s.
     """
     user = storage.get('User', user_id)
     if user is None:
@@ -43,7 +43,23 @@ def delete_user(user_id):
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def create_user():
-    pass
+    """
+    Creates a new User object by user_id.
+    Returns a user dictionary with the status code 201, else 400 w/ message.
+    """
+    error = lambda msg: make_response(jsonify({"error": msg}), 400)
+    user_json = request.get_json()
+    if user_json is None:
+        error("Not a JSON")
+    elif 'email' not in user_json.keys():
+        error("Missing email")
+    elif 'password' not in user_json.keys():
+        error("Missing password")
+    else:
+        new_user = User(**user_json)
+        storage.new(new_user)
+        storage.save()
+        return make_response(jsonify(new_user.to_dict()), 201)
 
 @app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
 def update_user(user_id):
