@@ -17,6 +17,7 @@ def page_not_found(e):
     resp.status_code = 404
     return resp
 
+
 @app.teardown_appcontext
 def teardown_storage():
     """calls close() on storage"""
