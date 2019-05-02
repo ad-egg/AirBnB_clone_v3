@@ -2,7 +2,7 @@
 """TODO"""
 
 from api.v1.views import app_views
-from flask import abort, jsonify, request
+from flask import abort, jsonify, request, make_response
 from models import storage
 from models.user import User
 
@@ -18,8 +18,8 @@ def get_all_users():
 
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def get_user(user_id):
-    """Retrieves a a specific User object by user_id, else 404s."""
-    user = storage.get("User", user_id)
+    """Retrieves a specific User object by user_id, else 404s."""
+    user = storage.get('User', user_id)
     if user is None:
         abort(404)
     else:
@@ -28,7 +28,18 @@ def get_user(user_id):
 
 @app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
 def delete_user(user_id):
-    pass
+    """
+    Deletes a specific User object by user_id.
+    Returns an empty dictionary with the status code 200,else 404s.
+    """
+    user = storage.get('User', user_id)
+    if user is None:
+        abort(404)
+    else:
+        storage.delete(user)
+        storage.save()
+        return make_response(jsonify({}), 200)
+    
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def create_user():
