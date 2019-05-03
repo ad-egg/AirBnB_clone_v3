@@ -97,7 +97,7 @@ class TestDBStorage(unittest.TestCase):
         models.storage.save()
 
         self.assertEqual(models.storage.count(), count_all + 1)
-        self.assertEqual(models.storage.count(State), count_states + 1)
+        self.assertEqual(models.storage.count("State"), count_states + 1)
 
         count_users = models.storage.count(User)
         new_user = User()
@@ -107,7 +107,7 @@ class TestDBStorage(unittest.TestCase):
         models.storage.save()
 
         self.assertEqual(models.storage.count(), count_all + 2)
-        self.assertEqual(models.storage.count(User), count_users + 1)
+        self.assertEqual(models.storage.count("User"), count_users + 1)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
@@ -117,11 +117,11 @@ class TestDBStorage(unittest.TestCase):
         models.storage.new(new_state)
         models.storage.save()
 
-        self.assertIsInstance(models.storage.get(State, new_state.id), State)
+        self.assertIsInstance(models.storage.get("State", new_state.id), State)
         self.assertEqual(
-                models.storage.get(State, new_state.id).id,
+                models.storage.get("State", new_state.id).id,
                 new_state.id)
-        self.assertIsNone(models.storage.get(State, None))
+        self.assertIsNone(models.storage.get("State", None))
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):

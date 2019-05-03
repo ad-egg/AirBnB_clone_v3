@@ -77,6 +77,9 @@ class DBStorage:
 
     def get(self, cls, id):
         """retrieves one object based on the class name and its ID"""
+        if not isinstance(cls, str) or not isinstance(id, str):
+            return None
+
         objs = self.all(cls)
         key = cls + '.' + id
         if key in objs.keys():
