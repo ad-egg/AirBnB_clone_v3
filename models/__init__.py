@@ -14,4 +14,6 @@ if storage_t == "db":
 else:
     from models.engine.file_storage import FileStorage
     storage = FileStorage()
+classes = {"Amenity": Amenity, "City": City,
+        "Place": Place, "Review": Review, "State": State, "User": User}
 storage.reload()
