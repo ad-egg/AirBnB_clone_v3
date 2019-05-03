@@ -21,7 +21,7 @@ def page_not_found(e):
 
 
 @app.teardown_appcontext
-def teardown_storage():
+def teardown_storage(x):
     """calls close() on storage"""
     storage.close()
 
