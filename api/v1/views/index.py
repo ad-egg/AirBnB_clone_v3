@@ -15,4 +15,6 @@ def status_json_return():
 @app_views.route('/stats')
 def get_class_count():
     ''' TODO '''
-    return jsonify({key: st.count(cls) for key, cls in st.classes.items()})
+    classes = {"Amenity": Amenity, "City": City,
+            "Place": Place, "Review": Review, "State": State, "User": User}
+    return jsonify({key: st.count(cls) for key, cls in classes.items()})
