@@ -151,3 +151,12 @@ class TestFileStorage(unittest.TestCase):
         temp_obj = temp_storage.get('State', despair.id)
         self.assertTrue(temp_obj.id == despair.id)
         self.assertTrue(temp_obj.name == despair.name)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count(self):
+        """
+        test the count method
+        """
+        temp_storage = FileStorage()
+        num_objs = len(temp_storage.all())
+        self.assertTrue(temp_storage.count() == num_objs)
