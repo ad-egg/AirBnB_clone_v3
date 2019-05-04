@@ -50,19 +50,19 @@ def create_user():
     err_msg = ""
     user_json = request.get_json()
     if user_json is None:
-        error("Not a JSON")
+        err_msg = "Not a JSON"
     else:
         if 'email' not in user_json.keys():
             err_msg = "Missing email"
         if 'password' not in user_json.keys():
             err_msg = "Missing password"
-        if err_msg != "":
-            return make_response(jsonify({"error": err_msg}), 400)
-        else:
-            new_user = User(**user_json)
-            storage.new(new_user)
-            storage.save()
-            return make_response(jsonify(new_user.to_dict()), 201)
+    if err_msg != "":
+        return make_response(jsonify({"error": err_msg}), 400)
+    else:
+        new_user = User(**user_json)
+        storage.new(new_user)
+        storage.save()
+        return make_response(jsonify(new_user.to_dict()), 201)
 
 
 @app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
