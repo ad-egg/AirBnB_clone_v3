@@ -47,14 +47,17 @@ def create_user():
     Creates a new User object by user_id.
     Returns a user dictionary with the status code 201, else 400 w/ message.
     """
-    def error(msg): return make_response(jsonify({"error": msg}), 400)
+    err_msg = ""
     user_json = request.get_json()
     if user_json is None:
-        error("Not a JSON")
-    elif 'email' not in user_json.keys():
-        error("Missing email")
-    elif 'password' not in user_json.keys():
-        error("Missing password")
+        err_msg = "Not a JSON"
+    else:
+        if 'email' not in user_json.keys():
+            err_msg = "Missing email"
+        if 'password' not in user_json.keys():
+            err_msg = "Missing password"
+    if err_msg != "":
+        return make_response(jsonify({"error": err_msg}), 400)
     else:
         new_user = User(**user_json)
         storage.new(new_user)
