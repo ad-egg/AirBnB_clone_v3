@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/USR/bin/python3
 """ TODO """
 from api.v1.views import app_views
 from flask import jsonify
@@ -12,7 +12,7 @@ def status_json_return():
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats')
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def get_class_count():
     ''' TODO '''
     classes = [("Amenity", "amenities"), ("City", "cities"), (
